@@ -1,8 +1,10 @@
 # Codex × ChatGPT · JEV Switch
 
+[English](README.en.md) | **简体中文**
+
 > ChatGPT 负责思考，Codex 负责干活，**Jev 决定什么时候该谁上**。
 
-[English summary](#english-summary) · [智能切换设计文档](docs/routing.md) · [安全模型](docs/security.md)
+[智能切换设计文档](docs/routing.md) · [安全模型](docs/security.md)
 
 本项目是 [codex-with-chatgpt](https://github.com/XiaoDuoYa/codex-with-chatgpt)（C2C）的分支。C2C 让网页版 ChatGPT 通过一条**只读** MCP 连接读取本地仓库，负责规划和审查，Codex 负责执行。
 
@@ -282,27 +284,3 @@ CLI 入口在 [src/cli/route.ts](src/cli/route.ts)。
 - 智能切换使用 [TypeSafe](https://typesafe.ai) 的 Jev 模型和官方 [JavaScript SDK](https://docs.typesafe.ai/sdk/javascript)。
 - **非官方社区项目，与 OpenAI、TypeSafe 均无关联，也未获它们背书。**
 - 许可证：[MIT](LICENSE)。
-
----
-
-## English summary
-
-**JEV Switch** is a fork of [codex-with-chatgpt](https://github.com/XiaoDuoYa/codex-with-chatgpt). In C2C, the ChatGPT web app plans and reviews your code through a read-only MCP bridge, and Codex does the work. This fork adds **smart routing**: [TypeSafe Jev](https://docs.typesafe.ai) plus deterministic code decide **when Codex should bring in ChatGPT and when to switch back to Codex**. You no longer have to trigger ChatGPT by hand, and pointless review round trips get skipped.
-
-- **Four decision points.**
-  - New request: Codex solo, Codex then ChatGPT review, ChatGPT plans first, or ask the user.
-  - Repeated failure: keep fixing, escalate to ChatGPT in DEBUG mode, or ask the user.
-  - Finish: close locally or send a REVIEW. This one is deterministic only.
-  - ChatGPT replies DONE with minor FOLLOWUPS: Codex applies them and closes.
-- **Safety.**
-  - Off by default. When off, it behaves exactly like upstream.
-  - Jev can only make the system more cautious, never skip a review.
-  - If Jev is unavailable, it falls back to upstream behavior.
-  - Every decision command exits 0 with valid JSON.
-- **Privacy.** Only after you run `route setup` in your own terminal does it send small, sanitized text snippets to the fixed endpoint `https://api.typesafe.ai`. Code blocks are stripped and secrets redacted. It never sends file contents or diffs. The decision log stores numbers only.
-- **Live eval** (jev-1.13.0, 152 fixtures, 73% Chinese):
-  - 96.5% route agreement (balanced), 93.3% on Chinese requests;
-  - intake p95 274 ms;
-  - 0 floor or injection violations.
-
-Enable it: install as above, then in your own terminal run `node ~/Codex_ChatGPT_JEV_Switch/bin/c2c.js route setup` and follow the prompts. Details: [docs/routing.md](docs/routing.md).
