@@ -29,6 +29,15 @@ export const PROTOCOL_STATES: readonly ProtocolState[] = [
 
 export const WAITING_FOR: readonly WaitingFor[] = ["none", "GPT_PLAN", "GPT_REVIEW", "USER"];
 
+/** How the task's INIT was framed: a normal plan request, a review of local work, or a stuck-debug handoff. */
+export type InitMode = "PLAN" | "REVIEW" | "DEBUG";
+
+export const INIT_MODES: readonly InitMode[] = ["PLAN", "REVIEW", "DEBUG"];
+
+export type RoutedBy = "user" | "router";
+
+export const ROUTED_BY: readonly RoutedBy[] = ["user", "router"];
+
 export interface TaskCheckpoint {
   taskId: string;
   iteration: number;
@@ -40,6 +49,12 @@ export interface TaskCheckpoint {
   nextExpectedStep?: string;
   chatUrl?: string;
   projectUrl?: string;
+  /** Absent = PLAN. */
+  initMode?: InitMode;
+  /** Absent = user. */
+  routedBy?: RoutedBy;
+  /** True while Codex applies ChatGPT's DONE follow-ups locally. */
+  closeLocal?: boolean;
   updatedAt: string;
 }
 
@@ -206,22 +221,39 @@ export function mergeSession(previous: SavedSession | null, patch: SessionPatch)
     checkpoint = undefined;
   } else if (patch.checkpoint) {
     const taskId = patch.checkpoint.taskId ?? patch.taskId ?? previous?.checkpoint?.taskId ?? previous?.taskId;
+    // A different task id starts a fresh checkpoint: nothing task-specific is inherited.
+    const newTask = Boolean(previous?.checkpoint) && taskId !== previous?.checkpoint?.taskId;
+    const base = newTask ? undefined : previous?.checkpoint;
     const iteration =
       patch.checkpoint.iteration ??
       patch.iteration ??
-      previous?.checkpoint?.iteration ??
-      previous?.iteration ??
-      0;
-    const protocolState = patch.checkpoint.protocolState ?? previous?.checkpoint?.protocolState;
+      (newTask ? 0 : (previous?.checkpoint?.iteration ?? previous?.iteration ?? 0));
+    const protocolState = patch.checkpoint.protocolState ?? base?.protocolState;
     if (!taskId || !protocolState) {
       throw new Error("checkpoint requires task id and protocol state");
     }
     if (!PROTOCOL_STATES.includes(protocolState)) {
       throw new Error(`protocol-state must be one of ${PROTOCOL_STATES.join(", ")}`);
     }
-    const waitingFor = patch.checkpoint.waitingFor ?? previous?.checkpoint?.waitingFor ?? "none";
+    const waitingFor = patch.checkpoint.waitingFor ?? base?.waitingFor ?? "none";
     if (!WAITING_FOR.includes(waitingFor)) {
       throw new Error(`waiting-for must be one of ${WAITING_FOR.join(", ")}`);
+    }
+    const initMode = patch.checkpoint.initMode ?? base?.initMode;
+    if (initMode !== undefined && !INIT_MODES.includes(initMode)) {
+      throw new Error(`init-mode must be one of ${INIT_MODES.join(", ")}`);
+    }
+    const routedBy = patch.checkpoint.routedBy ?? base?.routedBy;
+    if (routedBy !== undefined && !ROUTED_BY.includes(routedBy)) {
+      throw new Error(`routed-by must be one of ${ROUTED_BY.join(", ")}`);
+    }
+    // A new PLAN (or a new INIT) ends the DONE follow-up phase: an inherited closeLocal would make a
+    // resume close ChatGPT's new plan locally without review. Other state moves keep it.
+    const endsCloseLocal =
+      patch.checkpoint.protocolState === "PLAN_RECEIVED" || patch.checkpoint.protocolState === "INIT";
+    const closeLocal = patch.checkpoint.closeLocal ?? (endsCloseLocal ? undefined : base?.closeLocal);
+    if (closeLocal !== undefined && typeof closeLocal !== "boolean") {
+      throw new Error("close-local must be true or false");
     }
     checkpoint = {
       taskId,
@@ -229,23 +261,26 @@ export function mergeSession(previous: SavedSession | null, patch: SessionPatch)
       protocolState,
       waitingFor,
       originalGoal: capCheckpointText(
-        patch.checkpoint.originalGoal ?? previous?.checkpoint?.originalGoal,
+        patch.checkpoint.originalGoal ?? base?.originalGoal,
         CHECKPOINT_LIMITS.originalGoal
       ),
       completedSubtasks: capCheckpointText(
-        patch.checkpoint.completedSubtasks ?? previous?.checkpoint?.completedSubtasks,
+        patch.checkpoint.completedSubtasks ?? base?.completedSubtasks,
         CHECKPOINT_LIMITS.completedSubtasks
       ),
       knownIssues: capCheckpointText(
-        patch.checkpoint.knownIssues ?? previous?.checkpoint?.knownIssues,
+        patch.checkpoint.knownIssues ?? base?.knownIssues,
         CHECKPOINT_LIMITS.knownIssues
       ),
       nextExpectedStep: capCheckpointText(
-        patch.checkpoint.nextExpectedStep ?? previous?.checkpoint?.nextExpectedStep,
+        patch.checkpoint.nextExpectedStep ?? base?.nextExpectedStep,
         CHECKPOINT_LIMITS.nextExpectedStep
       ),
-      chatUrl: patch.checkpoint.chatUrl ?? previous?.checkpoint?.chatUrl ?? url,
-      projectUrl: patch.checkpoint.projectUrl ?? previous?.checkpoint?.projectUrl ?? projectUrl,
+      chatUrl: patch.checkpoint.chatUrl ?? base?.chatUrl ?? url,
+      projectUrl: patch.checkpoint.projectUrl ?? base?.projectUrl ?? projectUrl,
+      initMode,
+      routedBy,
+      closeLocal,
       updatedAt: new Date().toISOString(),
     };
   }

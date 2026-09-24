@@ -11,6 +11,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: latest
         version: 1.30.0(zod@3.25.76)
+      '@typesafe-ai/sdk':
+        specifier: 0.6.0
+        version: 0.6.0
       commander:
         specifier: ^14.0.0
         version: 14.0.3
@@ -400,6 +403,10 @@ packages:
 
   '@types/serve-static@2.2.0':
     resolution: {integrity: sha512-8mam4H1NHLtu7nmtalF7eyBH14QyOASmcxHhSfEoRyr0nP/YdoesEtU+uSRvMe96TW/HPTtkoKqQLl53N7UXMQ==}
+
+  '@typesafe-ai/sdk@0.6.0':
+    resolution: {integrity: sha512-IddX+Q0XM+VagOUZFeP7wZjaO4SHMdvnh2zEBdrZZnXedWI3BNK1lKhMx3ayrkFWvVLbVcUHJy6AVZlY+e6Jaw==}
+    engines: {node: '>=20'}
 
   '@vitest/expect@3.2.7':
     resolution: {integrity: sha512-E8eBXaKibuvH2pSZErOjdVb5vF4PbKYcrnluBTYxEk1l/VhhwZg1kZQsdtjq+CsF5CFydf2Rdkz7jDHKSisi3w==}
@@ -1242,6 +1249,8 @@ snapshots:
     dependencies:
       '@types/http-errors': 2.0.5
       '@types/node': 22.20.1
+
+  '@typesafe-ai/sdk@0.6.0': {}
 
   '@vitest/expect@3.2.7':
     dependencies:

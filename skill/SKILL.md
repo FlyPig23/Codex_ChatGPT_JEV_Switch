@@ -188,16 +188,19 @@ that close the tab, hide the window, or stall on the settings page.
   `corepack pnpm install && corepack pnpm build` inside it.
 - For commands that act on the user's project (`setup`, `doctor`, `session`,
   `restart`, `start`, `stop`, `status`, `pair`, `unpair`, `logs`, `workspace`,
-  `record`, `tunnel status`, `tunnel choose`), pass `-w <workspace root>`
+  `record`, `route`, `tunnel status`, `tunnel choose`), pass `-w <workspace root>`
   (the project the user is working on, NOT the c2c repo).
 - Do not add `-w` to machine-wide commands: `update-check`, `sandbox-allow`,
   `prefs`, `tunnel login`. They still accept and ignore `-w`, so a leftover
-  flag must not fail the command.
+  flag must not fail the command. `c2c route prefs` is machine-wide too.
+- Never run `c2c route setup` yourself; the user runs it in their own terminal.
 
 ## Daily update check
 
-At the START of every workflow below (before anything else), run these two
-commands (both are cheap / cached; never mention them unless an update exists):
+At the START of every workflow below (before anything else) — for a task started
+by `c2c route`, only once it actually engages ChatGPT — run these two commands.
+Never run them for work that stays with Codex alone. (Both are cheap / cached;
+never mention them unless an update exists.)
 
 1. `c2c update-check --json` (do not pass `-w`)
 2. `c2c sandbox-allow --json` (do not pass `-w`) — writes the C2C state directory into Codex's
@@ -215,11 +218,14 @@ commands (both are cheap / cached; never mention them unless an update exists):
 
 Inside the checkout directory (see Locations):
 
-1. `git pull --ff-only` (if it fails due to local edits: `git stash && git pull --ff-only`).
+1. `git pull --ff-only`. If it fails (local edits, diverged branch, no tracking
+   branch), skip the update silently and continue the task. Never `git stash`.
 2. `corepack pnpm install && corepack pnpm build`.
 3. Re-install the Skill: copy `skill/SKILL.md` to
    `~/.codex/skills/codex-with-chatgpt/SKILL.md`, then fix the "checkout lives at:"
-   line in the copy to the actual checkout path.
+   line in the copy to the actual checkout path. Also, if
+   `~/.codex/skills/c2c-router/` exists, copy `router-skill/SKILL.md` there and
+   fix its checkout path line the same way.
 4. `c2c sandbox-allow --json` (so existing installs pick up the sandbox allowlist),
    then `c2c restart -w <workspace>` so the bridge runs the new code, then
    `c2c update-check --force --json` to refresh the cache (should now report up to date).
@@ -527,6 +533,21 @@ ChatGPT's replies are expected to be substantive (see step 3). Docs: `docs/proto
    reclaim**, then doctor again and only continue when the gate is green.
    Generate task id: `c2c_` + 4 random hex chars — unless a checkpoint already
    has one (reuse that id; do not mint a second task).
+   Routing: if `c2c route` already gave this task a `taskId`, reuse it. For an
+   explicit request (this workflow triggered by the user's words), first run
+   `c2c route intake -w <ws> --explicit chatgpt --request "<goal>" --json`; if
+   `enabled:true`, use its `taskId` (routing features below apply to this task;
+   when a checkpoint exists it returns that checkpoint's id);
+   otherwise continue exactly as below. If the resume rules in step 1 clear the
+   checkpoint because the user does not want to continue it, run that explicit
+   intake again to get a fresh `taskId` for the new request.
+   If the task was started by the router (`--routed-by router`) and doctor
+   reports `chatgptRepair.needed` or `namedRepair.needed`, ask once:
+   「这个任务需要先重新连接 ChatGPT（约 1 分钟），现在连接吗？」 — unless the user
+   already agreed to reconnect for this task (a `c2c route` `connection_consent`
+   or `reconnect_consent` question); then repair without asking again. If they
+   decline: `c2c route pin -w <ws> --task <id> --route codex --json` and finish
+   the task yourself.
 1. `c2c session -w <workspace> --json`. Open ChatGPT on the same iab tab
    per **Conversation management** for `conversation.mode` (foreground +
    markHandoff). long-chat: saved chat, or `https://chatgpt.com/` if none.
@@ -551,13 +572,38 @@ ChatGPT's replies are expected to be substantive (see step 3). Docs: `docs/proto
    - `EXECUTING`: not finished. Continue the current PLAN if you still have
      it; otherwise HANDOFF and ask ChatGPT to restate the last PLAN. Do not
      treat it as done and do not INIT a new task.
-   - `PLAN_RECEIVED`: execute that plan. Do not INIT.
+   - `PLAN_RECEIVED` + `waitingFor=none`: execute that plan. Do not INIT.
    - `INIT` / `waitingFor=GPT_PLAN`: claim the tab and wait. Do not resend INIT.
    - `DONE`: summarize to the user if needed; `c2c session set --clear-checkpoint`.
-   - `BLOCKED`: surface ChatGPT's reason; do not INIT.
+   - `BLOCKED`: surface ChatGPT's reason; do not INIT for this task. A different
+     new task may clear it after the user confirms.
+   - Any state + `waitingFor=USER`: ask the saved question (`knownIssues`) again.
+     Do not execute, send, or INIT until the user answers.
+   - `EXECUTED_LOCAL` + `initMode=REVIEW` + iteration 1: ChatGPT has not seen
+     this task. Send `controlMessage` from
+     `c2c route message review-init -w <ws> --task <id> --json`, not EXECUTED.
+     After it is visible: `c2c session set -w <ws> --protocol-state EXECUTED_SENT
+     --waiting-for GPT_REVIEW --next-step "wait for PLAN or DONE"`, then continue
+     from step 7.
+   - `EXECUTING` + `closeLocal=true`: ChatGPT already said DONE. Finish its
+     FOLLOWUPS locally, then step 9. Never send EXECUTED or HANDOFF (unless
+     `c2c route failure` returns `escalate_chatgpt`).
+   - `routedBy=router`, or the checkpoint is older than 24 h, and the user's new
+     message is a different task: do not resume silently. Ask once:
+     「上次让 ChatGPT 协作的任务「<goal>」还没结束，要继续吗？」
+     No → `c2c session set -w <ws> --clear-checkpoint`, then handle the new request.
+   - HANDOFF from `initMode=REVIEW` while the checkpoint iteration is ≤ 1, or
+     from `initMode=DEBUG` at iteration 0: use the PROGRESS and
+     NEXT_EXPECTED_STEP wording in docs/protocol.md §HANDOFF. At a later
+     iteration the task is an ordinary PLAN loop: use the normal HANDOFF.
+   The rules that name `initMode`, `closeLocal` or `waitingFor=USER` win over
+   the plain state rules above them.
    Never re-pair, never recreate the connector, and never rewrite Project
    instructions just to resume.
-2. Send INIT with the user's goal (skip when the checkpoint says not to):
+2. Send INIT with the user's goal (skip when the checkpoint says not to).
+   If `c2c route` returned a `controlMessage` for this task (MODE: REVIEW or
+   MODE: DEBUG), send that text exactly instead of the INIT below, then write
+   the checkpoint its `next` gives you.
 
 ```
 [C2C]
@@ -586,12 +632,22 @@ Produce a C2C PLAN message.
    suggestions (which file, what to change, why). If the reply is a bare
    one-liner with no rationale or file-level guidance, ask once:
    "Please expand the plan with rationale and concrete per-file suggestions."
+   Task started by the router: if the PLAN deletes data or files, drops or
+   rewrites tables, rewrites git history, or force-pushes, and the user did not
+   ask for that, ask the user (one line) before executing.
    Then:
    `c2c session set -w <ws> --protocol-state PLAN_RECEIVED --waiting-for none --next-step "execute PLAN"`
 4. Execute the plan yourself with your own harness (your tools, your judgment;
    ChatGPT does not micro-manage tool calls).
    Before you start:
    `c2c session set -w <ws> --protocol-state EXECUTING --waiting-for none --next-step "finish PLAN then record"`
+   Routing enabled for this task: when a test/build/typecheck/lint command
+   fails, save its output to a temp file and run `c2c route failure -w <ws>
+   --task <id> --command "<cmd>" --output-file <tmp> --exit-code <n> --json`
+   (as in the c2c-router skill). `escalate_chatgpt` here means: stop fixing, go
+   to step 5 with `--exit-status failed` plus that command's
+   `--command/--output-file/--exit-code`, and send EXECUTED. Other routes:
+   follow `next`.
 5. Record the execution so ChatGPT can read it via MCP. Metadata always:
    `c2c record -w <ws> --task c2c_f81a --iteration 1 --changed-files "src/a.ts,src/b.ts" --tests "27 passed" --exit-status ok`
    If this iteration ran a **test / build / lint / typecheck** command, also
@@ -626,17 +682,55 @@ If execution_output lists a readable item for this iteration, list then read it.
 If status is restricted, ignore it and review from git_diff.
 ```
 
+   Routing enabled for this task: add this final line to EXECUTED:
+   `If only minor follow-ups remain that need no further review, reply STATE: DONE and list them under FOLLOWUPS:.`
    Then:
-   `c2c session set -w <ws> --protocol-state EXECUTED_SENT --waiting-for GPT_REVIEW --next-step "wait for PLAN or DONE"`
+   `c2c session set -w <ws> --protocol-state EXECUTED_SENT --waiting-for GPT_REVIEW --close-local false --next-step "wait for PLAN or DONE"`
+   (`--close-local false`: an EXECUTED sent back to ChatGPT ends any local
+   DONE follow-up phase.)
 7. ChatGPT reviews via MCP (`git_diff`, `read_file`, `test_status`,
    `execution_output`) and replies DONE / PLAN (next iteration) / BLOCKED.
-8. Loop. Respect maxIterations (`.c2c.json`, default 12). At the limit, pause and ask
-   the user: "已完成 12 轮协作，仍有未解决问题，是否继续？"
-9. On DONE: summarize the result to the user in plain language.
+8. Loop. Respect maxIterations (`.c2c.json` `maxIterations`, default 12). At the
+   limit, pause and ask: 「已完成 <n> 轮协作，仍有未解决问题，是否继续？」
+   (<n> = that limit).
+9. On DONE with a `FOLLOWUPS:` section (routing enabled): save that section to a
+   temp file (from your browser script if it can write files; otherwise write it
+   yourself) and run `c2c route reply -w <ws> --task <id> --iteration <n> --followups-file <tmp> --json`;
+   follow `next` instead of the rest of this step (it carries its own
+   checkpoint commands). Otherwise summarize the result to the user in plain language.
    `c2c session set -w <ws> --state DONE --clear-checkpoint`
 10. On BLOCKED: read ChatGPT's reason, fix what you can, or surface the single
     decision the user must make.
     `c2c session set -w <ws> --protocol-state BLOCKED --waiting-for USER --known-issues "<short reason>"`
+
+## Smart routing
+
+Optional and off by default (docs/routing.md). Routing is enabled for a task
+when `c2c route` gave it a `taskId` with `"enabled": true`.
+
+- `c2c route` output is advisory for ChatGPT steps only; everything else in this
+  skill still applies.
+- Print `say` verbatim, at most one routing line per turn.
+- Never request elevated permissions for `c2c route`. Never ask for or read the
+  TypeSafe key.
+- Never paste route JSON to the user.
+- A `c2c route` call that fails, times out, or returns `"ok": false`: continue
+  without it and never mention it. In step 9 that means applying the
+  FOLLOWUPS as the next iteration, then steps 5–6 (never skip the review).
+
+| user says | run |
+| --- | --- |
+| 这次/这个任务 让 ChatGPT 来规划 | `c2c route pin -w <ws> --task <id> --route chatgpt --json`, follow `next` |
+| 别找 ChatGPT / 不用 ChatGPT，你自己做 | `c2c route pin -w <ws> --task <id> --route codex --json` |
+| 让 ChatGPT 看看 / 复核一下 | `c2c route review-gate -w <ws> --task <id> --tests <status> --user-asked-review --json`, follow `next` |
+| 以后优先省 Codex 额度 / 优先快一点 | `c2c route prefs set --bias economy --json` / `--bias speed` |
+| 关闭 / 开启自动切换 | `c2c route prefs set --mode off --json` / `--mode auto` (if it fails, follow `next`) |
+| 这个项目别自动找 ChatGPT | `c2c route disable -w <ws> --json` |
+| 刚才不该找 ChatGPT / 刚才应该找 ChatGPT | `c2c route feedback -w <ws> --last --verdict wrong --json` |
+| 开启智能切换 / 设置 TypeSafe | Tell the user (with the real path): 「请在你自己的终端里运行：node "<checkout>/bin/c2c.js" route setup（Key 只在终端里输入，不经过聊天）」 |
+
+If the user pastes an API key into chat: do not repeat it, do not use it, and
+tell them to run setup in their terminal and rotate that key.
 
 ## Workflow: disconnect（"断开 ChatGPT"）
 

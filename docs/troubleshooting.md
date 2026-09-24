@@ -115,6 +115,38 @@ Do not pick another project by name automatically. Open the collection that
 matches this workspace and tell Codex「已找到」, or say you want the old
 long-chat instead. Each workspace has its own Project and its own connector.
 
+### Smart routing always says heuristic
+Optional smart routing ([routing.md](routing.md)) falls back to its built-in
+rules whenever TypeSafe Jev is unavailable, and marks those decisions
+`"source": "heuristic"`. That is safe — Codex starts every task alone unless
+you ask for ChatGPT, and still brings ChatGPT in when it is stuck or for risky
+or large changes — but it is more conservative. To see why:
+
+```
+c2c route status --probe --json
+```
+
+- `jev: "no_key"`: setup was not finished, or it was set to use
+  `TYPESAFE_API_KEY` and that variable is missing or holds a different key.
+  Run `node "<checkout>/bin/c2c.js" route setup` again in your own terminal.
+- `jev: "network_blocked"`: Codex's sandbox has network access turned off
+  (`CODEX_SANDBOX_NETWORK_DISABLED=1`). C2C never changes that setting.
+  Turning it on (`network_access = true` under `[sandbox_workspace_write]` in
+  `~/.codex/config.toml`) is your decision: every sandboxed command then gets
+  network access, not only the router. Heuristic mode keeps working without it.
+- `jev: "auth_failed"`: the key was revoked or mistyped. Routing pauses Jev
+  until the key changes; run setup again with a new key.
+- `jev: "rate_limited"`, or `breaker.open: true`: repeated failures paused Jev
+  for a while (2 minutes after a rate limit, 15 minutes after repeated timeouts
+  or server errors). It resumes by itself after `breaker.until`.
+- `jev: "unavailable"`: the probe got an error that is not one of the above
+  (a server error, a rejected request, or an answer in an unexpected shape);
+  `jevError` names it. Try again later; routing keeps using its built-in rules.
+
+If `enabled` is `false` instead, routing is off, has no consent, is disabled
+for this workspace (`c2c route enable -w <workspace>`), or the workspace was
+never set up with C2C.
+
 ### Completely stuck
 ```
 c2c stop

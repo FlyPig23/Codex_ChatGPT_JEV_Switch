@@ -28,6 +28,7 @@ import { Logger } from "../logger/index.js";
 import { getStateDir } from "../config/paths.js";
 import { ensureSandboxAllowlist, getCodexConfigPath, isStateDirAllowlisted } from "../config/sandbox-allow.js";
 import { mergeUiPrefs, readUiPrefs, SETUP_MODES, type SetupMode } from "../config/ui-prefs.js";
+import { NO_TRACKING_BRANCH_NOTE, runUpdateCheck } from "../config/update-check.js";
 import {
   CHATGPT_CREATE_CONNECTOR_URL,
   CHATGPT_DEVELOPER_MODE_URL,
@@ -48,14 +49,20 @@ import {
   readSession,
   resolveConversation,
   writeSession,
+  INIT_MODES,
   PROTOCOL_STATES,
+  ROUTED_BY,
   WAITING_FOR,
   type ConversationMode,
+  type InitMode,
   type ProtocolState,
+  type RoutedBy,
   type WaitingFor,
 } from "../session/state.js";
 import { appendExecutionRecord } from "../execution/records.js";
 import { saveExecutionOutput } from "../execution/output.js";
+import { guardLocalInput } from "../execution/local-input.js";
+import { registerRouteCommands } from "./route.js";
 
 const program = new Command();
 
@@ -99,17 +106,6 @@ function parseChangedFiles(value: string): string[] | number {
 
 /** Local harness output only. Never pasted into ChatGPT. */
 const MAX_RECORD_OUTPUT_READ = 256 * 1024;
-
-function readCappedUtf8(filePath: string, maxBytes: number): string {
-  const fd = fs.openSync(filePath, "r");
-  try {
-    const buf = Buffer.alloc(maxBytes);
-    const n = fs.readSync(fd, buf, 0, buf.length, 0);
-    return buf.subarray(0, n).toString("utf8");
-  } finally {
-    fs.closeSync(fd);
-  }
-}
 
 function persistWorkspaceEndpoint(opts: {
   workspaceId: string;
@@ -808,9 +804,9 @@ acceptUnusedWorkspaceOption(
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-function runGit(args: string[]): { ok: boolean; stdout: string } {
+function runUpdateGit(root: string, args: string[]): { ok: boolean; stdout: string } {
   const result = spawnSync("git", args, {
-    cwd: repoRoot,
+    cwd: root,
     encoding: "utf8",
     timeout: 8000,
     env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
@@ -827,45 +823,13 @@ acceptUnusedWorkspaceOption(
     .option("--json", "machine-readable output", false)
 )
   .action((opts: { force: boolean; json: boolean }) => {
-    const file = path.join(getStateDir(), "update-check.json");
-    const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD in local tz
-    let last: { date?: string; updateAvailable?: boolean } = {};
-    try {
-      last = JSON.parse(fs.readFileSync(file, "utf8")) as typeof last;
-    } catch {
-      /* first run */
-    }
-
-    const emit = (data: {
-      checked: boolean;
-      updateAvailable: boolean;
-      localCommit?: string;
-      remoteCommit?: string;
-      note?: string;
-    }): void => {
-      if (opts.json) say(JSON.stringify({ ok: true, version: VERSION, ...data }));
-      else if (data.updateAvailable) say(`发现新版本（本地 ${data.localCommit?.slice(0, 7)} → 远端 ${data.remoteCommit?.slice(0, 7)}）。`);
-      else say(data.note ?? "已是最新版本。");
-    };
-
-    if (!opts.force && last.date === today) {
-      emit({ checked: false, updateAvailable: last.updateAvailable ?? false, note: "今天已检查过更新。" });
-      return;
-    }
-
-    const local = runGit(["rev-parse", "HEAD"]);
-    const remote = runGit(["ls-remote", "origin", "HEAD"]);
-    if (!local.ok || !remote.ok || !remote.stdout) {
-      // Offline or not a git checkout: skip quietly and retry tomorrow-ish (do not
-      // record the date so a transient failure does not suppress the daily check).
-      emit({ checked: false, updateAvailable: false, note: "无法检查更新（离线或非 git 安装），已跳过。" });
-      return;
-    }
-    const remoteCommit = remote.stdout.split(/\s/)[0];
-    const updateAvailable = remoteCommit !== local.stdout;
-    fs.mkdirSync(getStateDir(), { recursive: true });
-    fs.writeFileSync(file, JSON.stringify({ date: today, updateAvailable, remoteCommit }), { mode: 0o600 });
-    emit({ checked: true, updateAvailable, localCommit: local.stdout, remoteCommit });
+    const data = runUpdateCheck({ repoRoot, runGit: runUpdateGit, force: opts.force });
+    if (opts.json) say(JSON.stringify({ ok: true, version: VERSION, ...data }));
+    else if (data.updateAvailable && data.localCommit && data.remoteCommit) {
+      say(`发现新版本（本地 ${data.localCommit.slice(0, 7)} → 远端 ${data.remoteCommit.slice(0, 7)}）。`);
+    } else if (data.updateAvailable) say("发现新版本。");
+    else if (data.note === NO_TRACKING_BRANCH_NOTE) say("当前分支没有跟踪远端分支，已跳过更新检查。");
+    else say(data.note ?? "已是最新版本。");
   });
 
 // ---------------------------------------------------------------- session (ChatGPT conversation / Project memory)
@@ -919,6 +883,9 @@ session
   .option("--completed-subtasks <text>")
   .option("--known-issues <text>")
   .option("--next-step <text>")
+  .option("--init-mode <mode>", "PLAN | REVIEW | DEBUG")
+  .option("--routed-by <who>", "user | router")
+  .option("--close-local <bool>", "true while Codex applies DONE follow-ups locally (true | false)")
   .option("--clear-checkpoint", "drop the active checkpoint (task DONE)", false)
   .action(
     (opts: {
@@ -937,6 +904,9 @@ session
       completedSubtasks?: string;
       knownIssues?: string;
       nextStep?: string;
+      initMode?: string;
+      routedBy?: string;
+      closeLocal?: string;
       clearCheckpoint: boolean;
     }) => {
       const workspace = new Workspace(resolveWorkspace(opts.workspace));
@@ -957,6 +927,31 @@ session
       if (waitingNorm && !WAITING_FOR.includes(waitingNorm as WaitingFor)) {
         throw new Error(`waiting-for must be one of ${WAITING_FOR.join(", ")}`);
       }
+      const initModeRaw = opts.initMode?.trim().toUpperCase();
+      if (initModeRaw && !INIT_MODES.includes(initModeRaw as InitMode)) {
+        throw new Error(`init-mode must be one of ${INIT_MODES.join(", ")}`);
+      }
+      const routedByRaw = opts.routedBy?.trim().toLowerCase();
+      if (routedByRaw && !ROUTED_BY.includes(routedByRaw as RoutedBy)) {
+        throw new Error(`routed-by must be one of ${ROUTED_BY.join(", ")}`);
+      }
+      const closeLocalRaw = opts.closeLocal?.trim().toLowerCase();
+      if (closeLocalRaw !== undefined && closeLocalRaw !== "true" && closeLocalRaw !== "false") {
+        throw new Error("close-local must be true or false");
+      }
+      const checkpointPatch = {
+        protocolState: (protocolRaw || undefined) as ProtocolState | undefined,
+        waitingFor: (waitingNorm as WaitingFor | undefined) ?? undefined,
+        originalGoal: opts.goal,
+        completedSubtasks: opts.completedSubtasks,
+        knownIssues: opts.knownIssues,
+        nextExpectedStep: opts.nextStep,
+        initMode: (initModeRaw || undefined) as InitMode | undefined,
+        routedBy: (routedByRaw || undefined) as RoutedBy | undefined,
+        closeLocal: closeLocalRaw === undefined ? undefined : closeLocalRaw === "true",
+      };
+      // Any checkpoint flag updates the checkpoint; protocol state falls back to the saved one.
+      const hasCheckpointFlag = Object.values(checkpointPatch).some((value) => value !== undefined);
       const saved = mergeSession(readSession(workspace.id), {
         url: opts.url,
         title: opts.title,
@@ -967,16 +962,7 @@ session
         projectUrl: opts.projectUrl,
         connectorName: opts.connectorName,
         clearCheckpoint: opts.clearCheckpoint,
-        checkpoint: protocolRaw
-          ? {
-              protocolState: protocolRaw as ProtocolState,
-              waitingFor: (waitingNorm as WaitingFor | undefined) ?? undefined,
-              originalGoal: opts.goal,
-              completedSubtasks: opts.completedSubtasks,
-              knownIssues: opts.knownIssues,
-              nextExpectedStep: opts.nextStep,
-            }
-          : undefined,
+        checkpoint: hasCheckpointFlag ? checkpointPatch : undefined,
       });
       writeSession(workspace.id, saved);
       if (saved.projectUrl && saved.conversationMode === "project") {
@@ -1086,10 +1072,19 @@ program
       const changed = parseChangedFiles(opts.changedFiles);
       let outputId: number | undefined;
       let outputAvailable = false;
-      const rawOutput =
-        opts.outputFile !== undefined
-          ? readCappedUtf8(path.resolve(opts.outputFile), MAX_RECORD_OUTPUT_READ)
-          : opts.output;
+      let rawOutput = opts.output;
+      if (opts.outputFile !== undefined) {
+        const input = guardLocalInput(workspace, opts.outputFile, {
+          mode: "head",
+          maxBytes: MAX_RECORD_OUTPUT_READ,
+        });
+        if (!input.ok) {
+          cross(`无法读取输出文件（${input.reason}）`);
+          process.exitCode = 1;
+          return;
+        }
+        rawOutput = input.text;
+      }
       if (opts.command && rawOutput !== undefined) {
         const savedOutput = saveExecutionOutput(workspace.id, {
           command: opts.command,
@@ -1245,6 +1240,8 @@ function handleCliError(error: unknown, json: boolean): void {
   }
   process.exitCode = 1;
 }
+
+registerRouteCommands(program);
 
 program.parseAsync(process.argv).catch((error: Error) => {
   cross(error.message);

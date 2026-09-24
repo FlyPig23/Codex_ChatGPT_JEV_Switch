@@ -9,13 +9,23 @@ const HARD_REJECT: RegExp[] = [
   /-----BEGIN PGP PRIVATE KEY BLOCK-----/,
 ];
 
+// A first capture group is kept as a prefix; everything else in the match becomes [REDACTED].
 const EXTRA_REDACT: RegExp[] = [
   /\bghp_[A-Za-z0-9]{20,}\b/g,
   /\bgithub_pat_[A-Za-z0-9_]{20,}\b/g,
-  /\bsk-[A-Za-z0-9]{20,}\b/g,
+  /\bsk-[\w-]{20,}/g,
+  /\b[sr]k_(?:live|test)_\w{16,}/g,
+  /\bglpat-[\w-]{20,}/g,
+  /\bnpm_[A-Za-z0-9]{36}/g,
+  /\bxapp-[\w-]{20,}/g,
   /\bxox[baprs]-[A-Za-z0-9-]{10,}\b/g,
   /\bAKIA[0-9A-Z]{16}\b/g,
   /\bAIza[0-9A-Za-z_-]{20,}\b/g,
+  /\beyJ[\w-]+\.[\w-]+\.[\w-]+/g,
+  /(:\/\/[^/\s:@]+:)[^@\s]+(?=@)/g,
+  /("?(?:password|passwd|secret|token|api_?key|private_?key|client_secret)"?\s*:\s*")[^"]*(?=")/gi,
+  // Bare status words (`--- PASS: TestFoo`, `KEY: …`) are left alone unless assigned with `=`.
+  /\b(?!(?:PASS(?:ED|ES|ING)?|KEYS?|TOKENS?)\s*:)([A-Z0-9_]{0,60}(?:SECRET|PASS|TOKEN|KEY|CREDENTIAL)[A-Z0-9_]{0,60}\s*[:=]\s*)\S+/g,
   /((?:api[_-]?key|secret|password|passwd|authorization)\s*[:=]\s*)\S+/gi,
 ];
 
@@ -59,9 +69,13 @@ function truncate(text: string): { text: string; truncated: boolean } {
   return { text: next, truncated };
 }
 
+export function containsPrivateKey(text: string): boolean {
+  return HARD_REJECT.some((pattern) => pattern.test(text));
+}
+
 /** Deterministic gate. Codex may nominate output; this decides if ChatGPT may read it. */
 export function sanitizeExecutionOutput(raw: string): SanitizeResult {
-  if (HARD_REJECT.some((pattern) => pattern.test(raw))) {
+  if (containsPrivateKey(raw)) {
     return { allowed: false, reason: "private_key" };
   }
   let text = redact(raw);

@@ -25,7 +25,14 @@
                         │ edit / shell / git / test
              ┌──────────┴──────────┐
              │  Codex Harness      │
-             └─────────────────────┘
+             │  + c2c-router skill │
+             └──────────┬──────────┘
+                        │ c2c route <point>  (optional, off by default)
+                        ▼
+             ┌─────────────────────┐  opt-in    ┌────────────────┐
+             │  C2C Router (local) │ ─────────▶ │  TypeSafe Jev  │
+             │  policy + floors    │ sanitized  │  typed answers │
+             └─────────────────────┘            └────────────────┘
 ```
 
 ## Principles
@@ -48,8 +55,17 @@
 | `tunnel/` | `TunnelProvider` interface + Cloudflare Quick and workspace-configured Named Tunnel implementations; business logic is vendor-agnostic |
 | `execution/` | JSONL execution records plus optional sanitized command output (`execution_output`) |
 | `process/` | Daemon spawn/reuse, health probing, graceful shutdown |
-| `cli/` | `c2c` commands; `--json` everywhere for the Skill |
-| `config/`, `logger/` | OS-convention state dir, secret-redacting logger |
+| `cli/` | `c2c` commands; `--json` everywhere for the Skill; `c2c route …` lives in `cli/route.ts` |
+| `config/`, `logger/` | OS-convention state dir, secret-redacting logger; `router-prefs.ts` keeps routing settings in `router.json`, separate from `prefs.json` |
+| `session/` | Per-workspace ChatGPT session and task checkpoint (`initMode`, `routedBy`, `closeLocal` for routed tasks) |
+| `router/` | Optional smart routing ([routing.md](routing.md)): deterministic signals (explicit phrases, error signatures, path categories, size buckets, task baseline), a pure policy per decision point, fixed `next`/`say` templates and REVIEW/DEBUG INIT builders, the outbound sanitizer + strict schemas, a pinned TypeSafe Jev client with budgets and a breaker, key + consent storage outside the sandbox roots, per-task router state, a numbers-only decision log, and the eval runner |
+
+## Skills
+
+| Skill | Installed to | Role |
+| --- | --- | --- |
+| `skill/SKILL.md` (`codex-with-chatgpt`) | `~/.codex/skills/codex-with-chatgpt/` | The real UX layer: setup, repair, the `[C2C]` loop. Triggers on explicit requests only |
+| `router-skill/SKILL.md` (`c2c-router`) | `~/.codex/skills/c2c-router/` (optional; `c2c route setup` offers it) | Tiny gate (under 80 lines, no protocol text): triggers on ordinary coding requests, calls `c2c route intake` / `failure` / `review-gate`, and hands off to the main skill only when a route engages ChatGPT |
 
 ## Request lifecycles
 
@@ -61,6 +77,18 @@
 `/.well-known/oauth-protected-resource/mcp` → AS metadata → DCR →
 `/oauth/authorize` (HTML pairing page) → pairing code verified → 302 with
 authorization code → `/oauth/token` (PKCE S256) → access + refresh tokens.
+
+**Routing decision** (only when enabled): Codex → `c2c route <point> --json`
+→ enablement check (mode, consent, workspace; no writes when off) → local
+signals and connection probe (loopback only) → Jev call when needed (sanitized,
+schema-checked, time-boxed; heuristic fallback) → pure policy → fixed-template
+`next` / `say` (+ `controlMessage` for REVIEW/DEBUG INIT) → numbers-only log.
+Routing state lives under the OS state dir, never in the project:
+`router.json` (machine-wide mode, bias, per-workspace opt-outs),
+`routing/<workspaceId>/tasks/<taskId>.json` (per-task counters, pin and
+baseline; 0600, pruned after 14 days), `routing/<workspaceId>.jsonl` (decision
+log) and `routing/breaker.json`. The TypeSafe key and consent live in the
+sibling `codex-with-chatgpt-keys/` dir, outside the sandbox's writable roots.
 
 **Ports**: prefer 48765, bind 127.0.0.1 only. On conflict, `/health` identifies
 whether the occupant is a c2c bridge for the same workspace (reuse) or not

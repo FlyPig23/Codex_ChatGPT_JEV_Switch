@@ -1,0 +1,2080 @@
+[
+  {
+    "id": "in-zh-save-button-blue",
+    "lang": "zh",
+    "request": "设置页那个保存按钮的颜色换成蓝的，鼠标悬停时再深一点",
+    "request_en": "On the settings page, give the Save button a blue color that darkens slightly on hover",
+    "tags": [
+      "targeted"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-readme-typo",
+    "lang": "zh",
+    "request": "README 里 install 拼成了 instal，顺手改一下",
+    "request_en": "The README spells install as instal; fix it while you're at it",
+    "tags": [
+      "targeted",
+      "colloquial"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-paginate-off-by-one",
+    "lang": "mixed",
+    "request": "paginate() 里有个 off-by-one，最后一页少一条，把 `<=` 改成 `<` 就行",
+    "request_en": "There's an off-by-one in paginate(): the last page is missing an item; just change <= to <",
+    "tags": [
+      "targeted",
+      "code_identifiers"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-empty-list-crash",
+    "lang": "zh",
+    "request": "顺手把这个 bug 修一下：列表为空的时候页面直接崩了",
+    "request_en": "While you're in there, fix this bug: an empty list makes the page blow up",
+    "tags": [
+      "colloquial",
+      "bugfix"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-timeout-30s",
+    "lang": "zh",
+    "request": "把请求超时从 10 秒改成 30 秒",
+    "request_en": "Raise the request timeout from 10 s to 30 s",
+    "tags": [
+      "targeted"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-env-base-url",
+    "lang": "mixed",
+    "request": "把 API_BASE_URL 从硬编码改成读环境变量 VITE_API_BASE_URL",
+    "request_en": "Read API_BASE_URL from the VITE_API_BASE_URL env var instead of hardcoding it",
+    "tags": [
+      "targeted",
+      "code_identifiers"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-invite-code-field",
+    "lang": "zh",
+    "request": "注册表单加一个「邀请码」输入框，选填，提交时一起传给后端",
+    "request_en": "Add an optional invite code input to the sign-up form and send it to the backend on submit",
+    "tags": [
+      "targeted"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-webpage-login-message",
+    "lang": "zh",
+    "request": "修复网页版的登录 bug：输错密码后错误提示不显示",
+    "request_en": "Fix the login bug on the web version: no error message appears after a wrong password",
+    "tags": [
+      "mention",
+      "webpage",
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-direct-blue",
+    "lang": "zh",
+    "request": "直接改成蓝色",
+    "request_en": "Just change it to blue",
+    "tags": [
+      "direct"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-direct-redis",
+    "lang": "zh",
+    "request": "直接改成用 Redis 做缓存",
+    "request_en": "Just switch the cache to Redis",
+    "tags": [
+      "direct"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-mention-previous-plan",
+    "lang": "zh",
+    "request": "ChatGPT 上次的方案有 bug，你直接修：分页接口 page=0 时返回了第一页的数据",
+    "request_en": "ChatGPT's last plan has a bug, fix it directly: the pagination API returns page one's data when page=0",
+    "tags": [
+      "mention",
+      "direct"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-webpage-deploy-404",
+    "lang": "zh",
+    "request": "网页版部署到 Vercel 后静态资源全是 404，帮我查一下原因",
+    "request_en": "After deploying the web app to Vercel every static asset 404s; find out why",
+    "tags": [
+      "mention",
+      "webpage",
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-model-name",
+    "lang": "mixed",
+    "request": "把调用 OpenAI 的 model 参数从 gpt-4o 换成 gpt-4.1",
+    "request_en": "Change the model parameter of the OpenAI call from gpt-4o to gpt-4.1",
+    "tags": [
+      "mention",
+      "targeted"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-gpt-reply-draft",
+    "lang": "zh",
+    "request": "给客服页加一个按钮，点了以后调用 GPT 生成回复草稿",
+    "request_en": "Add a button to the support page that calls GPT to draft a reply",
+    "tags": [
+      "mention",
+      "feature"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-explicit-plan-refactor",
+    "lang": "zh",
+    "request": "让 ChatGPT 先规划一下这个重构：把 utils 目录按业务领域拆开",
+    "request_en": "Have ChatGPT plan this refactor first: split the utils folder by business domain",
+    "tags": [
+      "explicit_chatgpt"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "chatgpt_plan"
+  },
+  {
+    "id": "in-zh-explicit-gpt-review-plan",
+    "lang": "zh",
+    "request": "用 GPT 看看这个方案再动手：订单状态机要不要加一个「部分退款」状态",
+    "request_en": "Have GPT look at this plan before coding: should the order state machine get a partial refund state",
+    "tags": [
+      "explicit_chatgpt",
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "chatgpt_plan"
+  },
+  {
+    "id": "in-zh-explicit-no-ask",
+    "lang": "zh",
+    "request": "别问 ChatGPT，自己改：把 Header 的 logo 换成新的 svg",
+    "request_en": "Don't ask ChatGPT, change it yourself: swap the Header logo for the new svg",
+    "tags": [
+      "explicit_codex"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-explicit-no-gpt-pagination",
+    "lang": "zh",
+    "request": "不用 GPT 了，你直接把订单列表接口的分页加上",
+    "request_en": "No GPT this time; you add paging to the order-list endpoint yourself",
+    "tags": [
+      "explicit_codex"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-explicit-without",
+    "lang": "en",
+    "request": "Refactor the auth middleware to use the new session store, without ChatGPT this time",
+    "tags": [
+      "explicit_codex"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-explicit-ask-plan",
+    "lang": "en",
+    "request": "Ask ChatGPT to plan the migration from REST to tRPC before touching any code",
+    "tags": [
+      "explicit_chatgpt"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 5,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "chatgpt_plan"
+  },
+  {
+    "id": "in-mixed-explicit-c2c",
+    "lang": "mixed",
+    "request": "使用 Codex with ChatGPT 帮我实现 WebSocket 断线重连",
+    "request_en": "Use Codex with ChatGPT to implement WebSocket reconnect",
+    "tags": [
+      "explicit_chatgpt"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "chatgpt_plan"
+  },
+  {
+    "id": "in-zh-explicit-dont-bother",
+    "lang": "zh",
+    "request": "这个小改动不要麻烦 ChatGPT 了，把 toast 显示时间改成 3 秒",
+    "request_en": "Don't bother ChatGPT with this small change; make toasts stay for 3 seconds",
+    "tags": [
+      "explicit_codex"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-explicit-dont-use",
+    "lang": "en",
+    "request": "Don't use ChatGPT for this one, just bump axios to 1.7.4 in package.json",
+    "tags": [
+      "explicit_codex"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-noegress-payment-signature",
+    "lang": "zh",
+    "request": "这个仓库是保密项目，帮我把支付回调的签名校验补上",
+    "request_en": "This repo is confidential; add signature verification to the payment callback",
+    "tags": [
+      "no_egress",
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-noegress-export",
+    "lang": "zh",
+    "request": "代码不要上传到任何外部服务，帮我重构一下数据导出模块",
+    "request_en": "Don't upload the code to any external service; refactor the data export module",
+    "tags": [
+      "no_egress"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-noegress-nda",
+    "lang": "en",
+    "request": "We're under NDA on this client project; add rate limiting to the /login endpoint",
+    "tags": [
+      "no_egress",
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-noegress-confidential",
+    "lang": "mixed",
+    "request": "confidential：内部结算逻辑，把手续费计算从四舍五入改成银行家舍入",
+    "request_en": "Confidential: internal settlement logic; switch fee rounding from half-up to banker's rounding",
+    "tags": [
+      "no_egress"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-vague-optimize-page",
+    "lang": "zh",
+    "request": "这个页面你帮我弄得好一点吧",
+    "request_en": "Make this page nicer somehow",
+    "tags": [
+      "vague"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 2,
+      "needs_design": true,
+      "goal_is_clear": false,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "ask_user",
+      "balanced": "ask_user",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-vague-better",
+    "lang": "en",
+    "request": "make the dashboard better",
+    "tags": [
+      "vague"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": false,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "ask_user",
+      "balanced": "ask_user",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-homepage-laggy",
+    "lang": "zh",
+    "request": "首页有点卡，看看怎么回事",
+    "request_en": "The home page is a bit laggy; see what's going on",
+    "tags": [
+      "vague",
+      "colloquial",
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-messy-code",
+    "lang": "zh",
+    "request": "这块代码写得太乱了，整理一下",
+    "request_en": "This code is a mess; clean it up",
+    "tags": [
+      "vague",
+      "colloquial"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-rename-getuserinfo",
+    "lang": "mixed",
+    "request": "项目里所有调用 loadAccountInfo 的地方都改名成 fetchAccountProfile，测试文件也要改",
+    "request_en": "Rename loadAccountInfo to fetchAccountProfile everywhere, tests included",
+    "tags": [
+      "mechanical"
+    ],
+    "labels": {
+      "task_kind": "mechanical_bulk_change",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-lodash-es",
+    "lang": "mixed",
+    "request": "把项目里所有 lodash 的 import 换成 lodash-es",
+    "request_en": "Replace every lodash import in the project with lodash-es",
+    "tags": [
+      "mechanical"
+    ],
+    "labels": {
+      "task_kind": "mechanical_bulk_change",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-remove-console-log",
+    "lang": "zh",
+    "request": "把代码里所有的 console.log 删掉，console.error 保留",
+    "request_en": "Delete every console.log in the code but keep console.error",
+    "tags": [
+      "mechanical"
+    ],
+    "labels": {
+      "task_kind": "mechanical_bulk_change",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-license-header",
+    "lang": "en",
+    "request": "Add the MIT license header to every .ts file under src/",
+    "tags": [
+      "mechanical"
+    ],
+    "labels": {
+      "task_kind": "mechanical_bulk_change",
+      "scope": 5,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-i18n-bulk",
+    "lang": "mixed",
+    "request": "把 components 目录下所有硬编码的中文文案都换成 t('...') 调用",
+    "request_en": "Replace every hardcoded Chinese string under components with t('...') calls",
+    "tags": [
+      "mechanical"
+    ],
+    "labels": {
+      "task_kind": "mechanical_bulk_change",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-login-captcha",
+    "lang": "zh",
+    "request": "登录时要先通过图片验证码，后端登录接口里校验一下",
+    "request_en": "Require an image CAPTCHA before the login endpoint accepts a sign-in",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-users-phone-column",
+    "lang": "zh",
+    "request": "customers 表里新增一个可空的 wechat_id 列",
+    "request_en": "Add a nullable wechat_id column to the customers table",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-double-charge",
+    "lang": "zh",
+    "request": "用户快速连点两下提交，后端同时收到两个请求，结果扣了两次钱，帮忙修掉",
+    "request_en": "A quick double tap sends two requests at once and the user is charged twice; fix it",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-encrypt-tokens",
+    "lang": "en",
+    "request": "The API tokens we save are plain text right now; keep them encrypted at rest instead",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-rename-out-flag",
+    "lang": "en",
+    "request": "Rename the CLI's --dest option to --target-dir",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-fullname-field",
+    "lang": "mixed",
+    "request": "/api/v2/orders 响应里的 created 字段改名为 createdAt，前端调用处同步改",
+    "request_en": "Rename the created field to createdAt in the /api/v2/orders response and update the frontend callers",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-order-ownership-check",
+    "lang": "zh",
+    "request": "订单详情接口没校验是不是本人的订单，加一下权限判断",
+    "request_en": "The order detail API doesn't check that the order belongs to the caller; add a permission check",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-cache-mutex",
+    "lang": "en",
+    "request": "Add a mutex around the cache refresh so two workers never refresh at the same time",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-cache-design",
+    "lang": "zh",
+    "request": "商品详情页的缓存该放 Redis 还是进程内存？给我出个方案",
+    "request_en": "Should the product detail cache live in Redis or in process memory? Propose a scheme",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-session-to-jwt",
+    "lang": "zh",
+    "request": "登录态从服务端 session 改为 JWT 令牌认证，前端和后端都要跟着调整",
+    "request_en": "Switch login state from server-side sessions to JWT tokens, frontend and backend",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-js-to-ts",
+    "lang": "zh",
+    "request": "整个仓库的 JS 代码都改写成 TS，并补上类型",
+    "request_en": "Convert the entire repo from JS to TypeScript with proper types",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 5,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-multitenant",
+    "lang": "zh",
+    "request": "后台要支持多租户：数据隔离、管理后台切换租户、所有 API 都要带 tenant",
+    "request_en": "The backend needs multi-tenancy: data isolation, tenant switching in admin, every API carries a tenant",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-plugin-architecture",
+    "lang": "en",
+    "request": "Restructure the whole app around plugins so each team can ship its features on its own",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 5,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-realtime-board",
+    "lang": "zh",
+    "request": "看板要实时更新，WebSocket 还是 SSE 你来定，前后端都要做",
+    "request_en": "The board needs real-time updates; you pick WebSocket or SSE, frontend and backend",
+    "tags": [
+      "design",
+      "warm"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "context": {
+      "warm": true
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-team-permissions",
+    "lang": "en",
+    "request": "How should org-level roles, invitations and per-project sharing work? Propose a scheme before we build it",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-flaky-ci",
+    "lang": "zh",
+    "request": "测试在本地都能过，CI 上偶尔挂，查一下是什么原因",
+    "request_en": "Everything is green on my machine but CI goes red now and then; figure out the cause",
+    "tags": [
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-white-screen",
+    "lang": "zh",
+    "request": "有时候登录进去页面一片空白，查不出原因",
+    "request_en": "After signing in the page sometimes renders blank and I can't tell why",
+    "tags": [
+      "debug",
+      "mention"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-split-orderform",
+    "lang": "mixed",
+    "request": "把这个 800 行的 OrderForm 组件拆成几个小组件，行为不变",
+    "request_en": "Split this 800-line OrderForm component into smaller components without changing behavior",
+    "tags": [
+      "refactor"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-service-layer",
+    "lang": "en",
+    "request": "Across the whole API, move the business logic out of the controllers into separate service modules",
+    "tags": [
+      "refactor"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-offline-sync",
+    "lang": "zh",
+    "request": "App 要支持离线编辑，恢复网络后自动同步，冲突怎么处理你们先定个方案",
+    "request_en": "The app should support offline editing and sync when back online; decide how conflicts are handled first",
+    "tags": [
+      "design"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "chatgpt_plan",
+      "speed": "chatgpt_plan"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-health-endpoint",
+    "lang": "en",
+    "request": "Expose a GET /status route that reports the build number and commit hash",
+    "tags": [
+      "feature"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-export-csv",
+    "lang": "zh",
+    "request": "订单列表页需要能把当前筛选出来的数据下载成 CSV 文件",
+    "request_en": "The orders list should let users download the currently filtered rows as a CSV file",
+    "tags": [
+      "feature"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-dark-mode",
+    "lang": "zh",
+    "request": "设置页需要一个夜间主题的切换开关，下次打开时保持用户上次的选择",
+    "request_en": "The settings page needs a night-theme switch that sticks across visits",
+    "tags": [
+      "feature"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-orders-pagination",
+    "lang": "en",
+    "request": "The invoices endpoint and its table should load results page by page (cursor-based), backend and frontend",
+    "tags": [
+      "feature"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": true
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-useeffect-twice",
+    "lang": "mixed",
+    "request": "这个 useEffect 为什么会执行两次？解释一下",
+    "request_en": "Why does this useEffect run twice? Explain",
+    "tags": [
+      "non_coding"
+    ],
+    "labels": {
+      "task_kind": "question_or_explanation",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-run-tests",
+    "lang": "zh",
+    "request": "跑下测试，看看有没有挂的",
+    "request_en": "Kick off the test suite and see whether anything is red",
+    "tags": [
+      "non_coding",
+      "colloquial"
+    ],
+    "labels": {
+      "task_kind": "run_command_or_ops",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-install-dev",
+    "lang": "en",
+    "request": "Set up node_modules and get the local dev server running",
+    "tags": [
+      "non_coding"
+    ],
+    "labels": {
+      "task_kind": "run_command_or_ops",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-explain-error",
+    "lang": "mixed",
+    "request": "这个报错是什么意思：Cannot read properties of undefined (reading 'map')",
+    "request_en": "What does this error mean: Cannot read properties of undefined (reading 'map')",
+    "tags": [
+      "non_coding"
+    ],
+    "labels": {
+      "task_kind": "question_or_explanation",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-review-last-commit",
+    "lang": "en",
+    "request": "Look over the commit I just made and point out anything obviously broken",
+    "tags": [
+      "review"
+    ],
+    "labels": {
+      "task_kind": "review_existing_changes",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-review-changes",
+    "lang": "zh",
+    "request": "我刚改完的这些代码你过一遍，看有没有明显的 bug",
+    "request_en": "Go over the code I just changed and flag any obvious bugs",
+    "tags": [
+      "review"
+    ],
+    "labels": {
+      "task_kind": "review_existing_changes",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-deploy-staging",
+    "lang": "zh",
+    "request": "帮我把前端打包部署到测试环境",
+    "request_en": "Build the frontend and deploy it to the test environment",
+    "tags": [
+      "non_coding"
+    ],
+    "labels": {
+      "task_kind": "run_command_or_ops",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-rebase-vs-merge",
+    "lang": "mixed",
+    "request": "git rebase 和 merge 有什么区别？",
+    "request_en": "What's the difference between git rebase and merge?",
+    "tags": [
+      "non_coding"
+    ],
+    "labels": {
+      "task_kind": "question_or_explanation",
+      "scope": 0,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-refactor-login",
+    "lang": "zh",
+    "request": "帮我重构一下登录这块",
+    "request_en": "Refactor the login part for me",
+    "tags": [
+      "colloquial",
+      "vague"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": false,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "ask_user",
+      "balanced": "ask_user",
+      "speed": "ask_user"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-api-500",
+    "lang": "zh",
+    "request": "这个接口老是 500，帮忙看下",
+    "request_en": "This endpoint keeps returning 500; take a look",
+    "tags": [
+      "colloquial",
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-api-types",
+    "lang": "mixed",
+    "request": "tsc 报了一堆 any 的错，帮我把 src/api 下的类型补全",
+    "request_en": "tsc reports a pile of implicit any errors; fill in the types under src/api",
+    "tags": [
+      "code_identifiers"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-mixed-useauth-refresh",
+    "lang": "mixed",
+    "request": "useAuth 这个 hook 里 token 过期后没有自动刷新，加上 refresh 逻辑",
+    "request_en": "useAuth doesn't refresh the token after it expires; add refresh logic",
+    "tags": [
+      "code_identifiers",
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "new_feature",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": true,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-signin-typo",
+    "lang": "en",
+    "request": "On the login screen the label says 'Pasword'; it should read 'Password'",
+    "tags": [
+      "targeted",
+      "mention"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 1,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-empty-cart-crash",
+    "lang": "en",
+    "request": "Opening an empty shopping cart throws and the page dies; fix it",
+    "tags": [
+      "bugfix"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-app-slow",
+    "lang": "en",
+    "request": "the app feels slow, can you take a look",
+    "tags": [
+      "vague",
+      "debug"
+    ],
+    "labels": {
+      "task_kind": "debug_unknown_cause",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": false,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-drop-legacy-table",
+    "lang": "en",
+    "request": "Drop the legacy_sessions table and remove the code that still reads it",
+    "tags": [
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-queue-parallel",
+    "lang": "en",
+    "request": "Let the background worker run several jobs at once without two workers grabbing the same job",
+    "tags": [
+      "risky_small",
+      "design"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "expected": {
+      "economy": "chatgpt_plan",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-payment-mq-needs-repair",
+    "lang": "zh",
+    "request": "把支付回调从同步处理改成消息队列异步处理，保证不丢单、不重复入账",
+    "request_en": "Move payment callbacks from synchronous handling to an async message queue without losing or double-booking orders",
+    "tags": [
+      "design",
+      "connection"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "context": {
+      "connection": "needs_repair"
+    },
+    "expected": {
+      "economy": "ask_user",
+      "balanced": "ask_user",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-unique-email-needs-project",
+    "lang": "zh",
+    "request": "给 users 表的 email 加唯一索引，先把重复数据清理掉",
+    "request_en": "Add a unique index on users.email after cleaning up duplicate rows",
+    "tags": [
+      "risky_small",
+      "connection"
+    ],
+    "labels": {
+      "task_kind": "targeted_change",
+      "scope": 2,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": true,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "context": {
+      "connection": "needs_project"
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-en-eventbus-busy",
+    "lang": "en",
+    "request": "Replace the homegrown event bus with RxJS across the frontend",
+    "tags": [
+      "refactor",
+      "busy"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 4,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "context": {
+      "workspaceBusy": true
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-bullmq-after-restart",
+    "lang": "zh",
+    "request": "把定时任务从 node-cron 迁到 BullMQ，任务要能重试、不能重复执行",
+    "request_en": "Move scheduled jobs from node-cron to BullMQ with retries and no duplicate runs",
+    "tags": [
+      "connection",
+      "risky_small"
+    ],
+    "labels": {
+      "task_kind": "refactor_or_restructure",
+      "scope": 3,
+      "needs_design": false,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": true,
+      "changes_public_interface": false
+    },
+    "context": {
+      "connection": "ready_after_restart"
+    },
+    "expected": {
+      "economy": "codex_then_review",
+      "balanced": "codex_then_review",
+      "speed": "codex_then_review"
+    },
+    "heuristicExpected": "codex_solo"
+  },
+  {
+    "id": "in-zh-notify-consent-asked",
+    "lang": "zh",
+    "request": "重新设计通知系统：站内信、邮件、推送统一成一个服务",
+    "request_en": "Redesign notifications: merge in-app messages, email and push into one service",
+    "tags": [
+      "design",
+      "connection"
+    ],
+    "labels": {
+      "task_kind": "design_or_architecture",
+      "scope": 4,
+      "needs_design": true,
+      "goal_is_clear": true,
+      "touches_auth_security": false,
+      "touches_stored_data": false,
+      "touches_concurrency": false,
+      "changes_public_interface": false
+    },
+    "context": {
+      "connection": "needs_repair",
+      "consentAskedToday": true
+    },
+    "expected": {
+      "economy": "codex_solo",
+      "balanced": "codex_solo",
+      "speed": "codex_solo"
+    },
+    "heuristicExpected": "codex_solo"
+  }
+]

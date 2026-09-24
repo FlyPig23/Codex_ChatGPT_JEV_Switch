@@ -20,6 +20,7 @@
   "packageManager": "pnpm@11.24.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "latest",
+    "@typesafe-ai/sdk": "0.6.0",
     "commander": "^14.0.0",
     "express": "^5.1.0",
     "ignore": "^7.0.5",
