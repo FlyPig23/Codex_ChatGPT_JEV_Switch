@@ -1,5 +1,7 @@
 # Codex × ChatGPT · JEV Switch
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/flypig23-codex-chatgpt-jev-switch-80m67j?v=0463488104d40fc30f448e715d18180f)](https://m8ven.ai/mcp/flypig23-codex-chatgpt-jev-switch-80m67j)
+
 **English** | [简体中文](README.md)
 
 > ChatGPT thinks, Codex works, and **Jev decides whose turn it is**.
