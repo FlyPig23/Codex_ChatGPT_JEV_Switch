@@ -1,6 +1,6 @@
 # Codex × ChatGPT · JEV Switch
 
-[![M8ven Score](https://m8ven.ai/badge/mcp/flypig23-codex-chatgpt-jev-switch-80m67j?v=0463488104d40fc30f448e715d18180f)](https://m8ven.ai/mcp/flypig23-codex-chatgpt-jev-switch-80m67j)
+[![M8ven Score](https://m8ven.ai/badge/mcp/flypig23-codex-chatgpt-jev-switch-80m67j?v=15040cea946ec50d3384c69bd87d1d46)](https://m8ven.ai/mcp/flypig23-codex-chatgpt-jev-switch-80m67j)
 
 [English](README.en.md) | **简体中文**
 
